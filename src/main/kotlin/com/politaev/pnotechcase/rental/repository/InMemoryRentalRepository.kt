@@ -1,7 +1,9 @@
 package com.politaev.pnotechcase.rental.repository
 
 import com.politaev.pnotechcase.rental.model.Rental
+import org.springframework.stereotype.Repository
 
+@Repository
 class InMemoryRentalRepository : RentalRepository {
 
     private val rentalsByCustomerId = mutableMapOf<Int, Set<Rental>>().withDefault { emptySet() }

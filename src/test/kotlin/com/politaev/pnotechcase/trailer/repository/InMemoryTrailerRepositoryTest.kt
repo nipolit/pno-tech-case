@@ -1,6 +1,6 @@
 package com.politaev.pnotechcase.trailer.repository
 
-import com.politaev.pnotechcase.trailer.error.TrailerError
+import com.politaev.pnotechcase.trailer.TrailerError
 import com.politaev.pnotechcase.trailer.model.Trailer
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
@@ -16,7 +16,7 @@ class InMemoryTrailerRepositoryTest {
     }
 
     @Test
-    fun `given trailer exists, when findTrailerById, then return trailer`() {
+    fun `given trailer exists, when findTrailerByAssetId, then return trailer`() {
         // Given
         val assetId = 123
         val expectedTrailer = Trailer(
@@ -28,7 +28,7 @@ class InMemoryTrailerRepositoryTest {
         trailerRepository.createTrailer(expectedTrailer)
 
         // When
-        val result = trailerRepository.findTrailerById(assetId)
+        val result = trailerRepository.findTrailerByAssetId(assetId)
 
         // Then
         assertTrue { result.isRight() }
@@ -37,16 +37,16 @@ class InMemoryTrailerRepositoryTest {
     }
 
     @Test
-    fun `given trailer does not exist, when findTrailerById, then return error`() {
+    fun `given trailer does not exist, when findTrailerByAssetId, then return error`() {
         // Given
         val assetId = 123
 
         // When
-        val result = trailerRepository.findTrailerById(assetId)
+        val result = trailerRepository.findTrailerByAssetId(assetId)
 
         // Then
         assertTrue { result.isLeft() }
-        val expectedError = TrailerError.TrailerNotFound(assetId)
+        val expectedError = TrailerError.TrailerNotFoundByAssetId(assetId)
         val actualError = result.leftOrNull()
         assertEquals(expectedError, actualError)
     }
