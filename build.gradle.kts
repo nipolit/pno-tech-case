@@ -27,6 +27,8 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 	implementation("org.jetbrains.kotlin:kotlin-reflect")
 	implementation("org.springframework.modulith:spring-modulith-starter-core")
+	implementation(platform("io.arrow-kt:arrow-stack:1.2.4"))
+	implementation("io.arrow-kt:arrow-core")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	testImplementation("org.springframework.modulith:spring-modulith-starter-test")
