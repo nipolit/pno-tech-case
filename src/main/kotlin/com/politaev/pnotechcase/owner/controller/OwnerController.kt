@@ -3,7 +3,9 @@ package com.politaev.pnotechcase.owner.controller
 import com.politaev.pnotechcase.trailer.TrailerDTO
 import com.politaev.pnotechcase.trailer.TrailerError
 import com.politaev.pnotechcase.trailer.TrailerService
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
+import org.springframework.web.server.ResponseStatusException
 
 @RestController
 @RequestMapping("owners")
@@ -18,8 +20,16 @@ class OwnerController(val trailerService: TrailerService) {
                     { trailerError ->
                         when (trailerError) {
                             is TrailerError.TrailerNotFoundByOwnerAndVin -> emptySet()
-                            is TrailerError.VinNotUnique -> throw IllegalStateException("Multiple trailers with VIN  \"$vin\".")
-                            else -> throw RuntimeException("Unexpected error when searching for trailer with VIN \"$vin\".")
+
+                            is TrailerError.VinNotUnique -> throw ResponseStatusException(
+                                HttpStatus.INTERNAL_SERVER_ERROR,
+                                "Multiple trailers with VIN  \"$vin\"."
+                            )
+
+                            else -> throw ResponseStatusException(
+                                HttpStatus.INTERNAL_SERVER_ERROR,
+                                "Unexpected error when searching for trailer with VIN \"$vin\"."
+                            )
                         }
                     },
                     { trailerWithVin -> setOf(trailerWithVin) }

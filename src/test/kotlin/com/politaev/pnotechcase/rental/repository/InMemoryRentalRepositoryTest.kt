@@ -25,21 +25,21 @@ class InMemoryRentalRepositoryTest {
                 trailerId = 34,
                 customerId = customerId,
                 startTime = LocalDate.EPOCH,
-                endTime = LocalDate.EPOCH.plusYears(5)
+                endTime = LocalDate.MAX
             ),
             Rental(
                 rentalId = 56,
                 trailerId = 78,
                 customerId = customerId,
                 startTime = LocalDate.EPOCH,
-                endTime = LocalDate.EPOCH.plusYears(5)
+                endTime = LocalDate.MAX
             ),
             Rental(
                 rentalId = 90,
                 trailerId = 87,
                 customerId = customerId,
                 startTime = LocalDate.EPOCH,
-                endTime = LocalDate.EPOCH.plusYears(5)
+                endTime = LocalDate.MAX
             )
         )
         expectedRentals.forEach { rentalRepository.createRental(it) }

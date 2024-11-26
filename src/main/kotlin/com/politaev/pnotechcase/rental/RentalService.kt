@@ -18,18 +18,19 @@ class RentalService(val rentalRepository: RentalRepository, val trailerService: 
         }
     }
 
-    fun getRentalByCustomerIdAndRentalId(customerId: Int, rentalId: Int): Either<RentalError, RentalDTO> =
+    fun getRentalByCustomerIdAndTrailerAssetId(customerId: Int, trailerAssetId: Int): Either<RentalError, RentalDTO> =
         rentalRepository.findRentalsByCustomerId(customerId)
-            .filter { it.rentalId == rentalId }
+            .map { toDTOWithTrailer(it) }
+            .filter { it.trailer?.assetId == trailerAssetId }
             .run {
                 either {
                     when (size) {
-                        0 -> raise(RentalError.RentalNotFoundById(rentalId))
+                        0 -> raise(RentalError.RentalNotFound(customerId = customerId, trailerAssetId = trailerAssetId))
                         1 -> single()
-                        else -> raise(RentalError.RentalIdNotUnique(rentalId))
+                        else -> raise(RentalError.RentalNotUnique(customerId = customerId, trailerAssetId = trailerAssetId))
                     }
                 }
-            }.map { toDTOWithTrailer(it) }
+            }
 
     private fun toDTOWithTrailer(rental: Rental): RentalDTO = trailerService.getTrailerByAssetId(rental.trailerId)
         .fold(
