@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository
 class InMemoryTrailerRepository : TrailerRepository {
 
     private val trailersByAssetId = mutableMapOf<Int, Trailer>()
-    private val trailersByOwnerId = mutableMapOf<Int, Set<Trailer>>().withDefault { emptySet() }
+    private val trailersByOwnerId = mutableMapOf<Int, List<Trailer>>().withDefault { emptyList() }
 
     override fun findTrailerByAssetId(assetId: Int): Either<TrailerError, Trailer> = either {
         ensureNotNull(trailersByAssetId[assetId]) {
@@ -19,7 +19,7 @@ class InMemoryTrailerRepository : TrailerRepository {
         }
     }
 
-    override fun findTrailersByOwnerId(ownerId: Int): Set<Trailer> = trailersByOwnerId.getValue(ownerId)
+    override fun findTrailersByOwnerId(ownerId: Int): List<Trailer> = trailersByOwnerId.getValue(ownerId)
 
     fun createTrailer(trailer: Trailer) {
         val assetId = trailer.assetId

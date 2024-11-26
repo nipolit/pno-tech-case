@@ -55,7 +55,7 @@ class InMemoryTrailerRepositoryTest {
     fun `given trailers with ownerId exist, when findTrailersByOwnerId, then return all trailers`() {
         // Given
         val ownerId = 123
-        val expectedTrailers = setOf(
+        val expectedTrailers = listOf(
             Trailer(
                 assetId = 123,
                 ownerId = ownerId,
@@ -93,7 +93,7 @@ class InMemoryTrailerRepositoryTest {
         val actualTrailers = trailerRepository.findTrailersByOwnerId(ownerId)
 
         // Then
-        val expectedTrailers = emptySet<Trailer>()
+        val expectedTrailers = emptyList<Trailer>()
         assertIterableEquals(expectedTrailers, actualTrailers)
     }
 

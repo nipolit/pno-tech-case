@@ -6,5 +6,5 @@ import com.politaev.pnotechcase.trailer.model.Trailer
 
 interface TrailerRepository {
     fun findTrailerByAssetId(trailerId: Int): Either<TrailerError, Trailer>
-    fun findTrailersByOwnerId(ownerId: Int): Set<Trailer>
+    fun findTrailersByOwnerId(ownerId: Int): List<Trailer>
 }

@@ -12,14 +12,14 @@ import org.springframework.web.server.ResponseStatusException
 class OwnerController(val trailerService: TrailerService) {
 
     @GetMapping("/{ownerId}/trailers")
-    fun getTrailers(@PathVariable ownerId: Int, @RequestParam(required = false) vin: String? = null): Set<TrailerDTO> =
+    fun getTrailers(@PathVariable ownerId: Int, @RequestParam(required = false) vin: String? = null): List<TrailerDTO> =
         when (vin) {
             null -> trailerService.getTrailersByOwnerId(ownerId)
             else -> trailerService.getTrailerByOwnerIdAndVin(ownerId, vin)
                 .fold(
                     { trailerError ->
                         when (trailerError) {
-                            is TrailerError.TrailerNotFoundByOwnerAndVin -> emptySet()
+                            is TrailerError.TrailerNotFoundByOwnerAndVin -> emptyList()
 
                             is TrailerError.VinNotUnique -> throw ResponseStatusException(
                                 HttpStatus.INTERNAL_SERVER_ERROR,
@@ -32,7 +32,7 @@ class OwnerController(val trailerService: TrailerService) {
                             )
                         }
                     },
-                    { trailerWithVin -> setOf(trailerWithVin) }
+                    { trailerWithVin -> listOf(trailerWithVin) }
                 )
         }
 

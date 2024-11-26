@@ -7,11 +7,10 @@ import java.time.LocalDate
 @Repository
 class InMemoryRentalRepository : RentalRepository {
 
-    private val rentalsByCustomerId = mutableMapOf<Int, Set<Rental>>().withDefault { emptySet() }
+    private val rentalsByCustomerId = mutableMapOf<Int, List<Rental>>().withDefault { emptyList() }
 
-    override fun findRentalsByCustomerId(customerId: Int): Set<Rental> = rentalsByCustomerId.getValue(customerId)
+    override fun findRentalsByCustomerId(customerId: Int): List<Rental> = rentalsByCustomerId.getValue(customerId)
         .filter { LocalDate.now().isBetween(it.startTime, it.endTime) }
-        .toSet()
 
     fun createRental(rental: Rental) {
         val customerId = rental.customerId

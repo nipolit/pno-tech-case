@@ -12,10 +12,9 @@ class TrailerService(val trailerRepository: TrailerRepository) {
         trailerRepository.findTrailerByAssetId(assetId)
             .map(TrailerDTO::fromTrailer)
 
-    fun getTrailersByOwnerId(ownerId: Int): Set<TrailerDTO> =
+    fun getTrailersByOwnerId(ownerId: Int): List<TrailerDTO> =
         trailerRepository.findTrailersByOwnerId(ownerId)
             .map(TrailerDTO::fromTrailer)
-            .toSet()
 
     fun getTrailerByOwnerIdAndVin(ownerId: Int, vin: String): Either<TrailerError, TrailerDTO> {
         val trailersWithOwnerAndVin = trailerRepository.findTrailersByOwnerId(ownerId)
